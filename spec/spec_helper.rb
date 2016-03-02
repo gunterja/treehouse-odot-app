@@ -18,6 +18,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+RSpec.configure do |rspec|
+  rspec.deprecation_stream = 'log/rspec-deprecations.log'
+end
+
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
