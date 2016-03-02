@@ -1,14 +1,23 @@
 require 'spec_helper'
 
 describe "Creating todo lists" do
-  it "redirects to the todo list index page on sucess" do
+
+  def create_todo_list(options={})
+    options[:title] ||= "My todo list"
+    options[:description] ||= "This is my todo list."
+
     visit "/todo_lists"
     click_link "New Todo list"
     expect(page).to have_content("New Todo List")
 
-    fill_in "Title", with: "My todo list"
-    fill_in "Description", with: "This is what I'm doing today."
+    fill_in "Title", with: options[:title]
+    fill_in "Description", with: options[:description]
     click_button "Create Todo list"
+  end
+
+  it "redirects to the todo list index page on sucess" do
+    create_todo_list
+    expect(page).to have_content("New Todo List")
   end
 
   it "displays an error when the todo list has no title" do
