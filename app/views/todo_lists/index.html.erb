@@ -2,15 +2,12 @@
 
 <h1>Listing Todo Lists</h1>
 
-<table>
+<table class="todo-list">
   <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
+    <th width="25%">Title</th>
+    <th width="55%">Description</th>
+    <th width="20%">Functions</th>
   </thead>
-
   <tbody>
     <% @todo_lists.each do |todo_list| %>
       <tr id="<%= dom_id(todo_list) %>">
