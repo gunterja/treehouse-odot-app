@@ -23,28 +23,18 @@ describe UsersController do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "first_name" => "MyString" } }
+  let(:valid_attributes) { {
+    first_name: "Jeremy",
+    last_name: "Gunter",
+    email: "jeremy@example.com",
+    password: "treehouse1234",
+    password_confirmation: "treehouse1234"
+    } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # UsersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
-  describe "GET index" do
-    it "assigns all users as @users" do
-      user = User.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:users).should eq([user])
-    end
-  end
-
-  describe "GET show" do
-    it "assigns the requested user as @user" do
-      user = User.create! valid_attributes
-      get :show, {:id => user.to_param}, valid_session
-      assigns(:user).should eq(user)
-    end
-  end
 
   describe "GET new" do
     it "assigns a new user as @user" do
@@ -64,20 +54,22 @@ describe UsersController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new User" do
-        expect {
-          post :create, {:user => valid_attributes}, valid_session
-        }.to change(User, :count).by(1)
+        expect { post :create, { :user => valid_attributes}, valid_session }.to change(User, :count).by(1)
       end
 
-      it "assigns a newly created user as @user" do
+      it "redirects to the todo lists path" do
         post :create, {:user => valid_attributes}, valid_session
-        assigns(:user).should be_a(User)
-        assigns(:user).should be_persisted
+        response.should redirect_to(todo_lists_path)
       end
 
-      it "redirects to the created user" do
+      it "sets the flash success message" do
+        post :create, { :user => valid_attributes }, valid_session
+        expect(flash[:success]).to eq("Thanks for signing up!")
+      end
+
+      it "sets the session user_id to the created user" do
         post :create, {:user => valid_attributes}, valid_session
-        response.should redirect_to(User.last)
+        expect(session[:user_id]).to eq(User.find_by(email: valid_attributes[:email]).id)
       end
     end
 
@@ -85,14 +77,14 @@ describe UsersController do
       it "assigns a newly created but unsaved user as @user" do
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
-        post :create, {:user => { "first_name" => "invalid value" }}, valid_session
+        post :create, {:user => { "first_name" => " " }}, valid_session
         assigns(:user).should be_a_new(User)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
-        post :create, {:user => { "first_name" => "invalid value" }}, valid_session
+        post :create, {:user => { "first_name" => " " }}, valid_session
         response.should render_template("new")
       end
     end

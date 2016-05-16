@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-describe "Adding todo items" do
-  let!(:todo_list) { TodoList.create(title: "Grocery list",
-                               description: "Groceries") }
-  let!(:todo_item) { todo_list.todo_items.create(content: "Milk") }
+describe "Completing todo items" do
+  let!(:todo_list) { TodoList.create(title: "Grocery list", description: "Groceries") }
+  let!(:todo_item) { todo_list.todo_items.create(content: "Milk") }  
 
   it "is successful when marking a single item complete" do
     expect(todo_item.completed_at).to be_nil
@@ -12,14 +11,13 @@ describe "Adding todo items" do
       click_link "Mark Complete"
     end
     todo_item.reload
-    expect(todo_item.completed_at)
     expect(todo_item.completed_at).to_not be_nil
   end
 
   context "with completed items" do
     let!(:completed_todo_item) { todo_list.todo_items.create(content: "Eggs", completed_at: 5.minutes.ago) }
 
-    it "shows the completed items as complete" do
+    it "shows completed items as complete" do
       visit_todo_list todo_list
       within dom_id_for(completed_todo_item) do
         expect(page).to have_content(completed_todo_item.completed_at)
@@ -33,5 +31,4 @@ describe "Adding todo items" do
       end
     end
   end
-
 end
