@@ -27,6 +27,8 @@ RSpec.configure do |config|
   config.include TodoListHelpers, type: :feature
   config.include RailsDomIdHelper, type: :feature
   config.include FactoryGirl::Syntax::Methods
+  config.include AuthenticationHelpers, type: :controller
+
 
   # ## Mock Framework
   #
