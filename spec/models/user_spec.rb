@@ -11,6 +11,11 @@ describe User do
     }
   }
 
+  context "relationships" do
+    it { should have_many(:todo_lists)}
+
+  end
+
   context "validations" do
     let(:user) { User.new(valid_attributes) }
 
@@ -49,7 +54,7 @@ describe User do
     it "downcases an email before saving it" do
       user = User.new(valid_attributes)
       user.email = "JEREMYG123@EXAMPLE.COM"
-      expect(user.save).to be_true
+      expect(user.save).to be true
       expect(user.email).to eq("jeremyg123@example.com")
     end
 
