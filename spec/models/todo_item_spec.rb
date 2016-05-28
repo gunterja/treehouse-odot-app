@@ -8,12 +8,12 @@ describe TodoItem do
 
     it "returns false when completed_at is blank" do
       todo_item.completed_at = nil
-      expect(todo_item.completed?).to be_false
+      expect(todo_item.completed?).to be_falsey
     end
 
     it "returns true when completed_at is not blank" do
       todo_item.completed_at = Time.now
-      expect(todo_item.completed?).to be_true
+      expect(todo_item.completed?).to be_truthy
     end
   end
 end
